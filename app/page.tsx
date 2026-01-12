@@ -4,10 +4,10 @@ export default function Home() {
       <div className="max-w-4xl w-full space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">
-            欢迎来到 PBL Learning Platform
+            欢迎来到 PBL Learning Platform 🚀
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            基于 Supabase + Next.js + AI 的学习平台
+            基于 Supabase + Next.js + AI 的学习平台 | 测试自动部署功能
           </p>
         </div>
 
