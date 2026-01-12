@@ -153,7 +153,7 @@ create policy "Users can view own messages"
 git init
 git add .
 git commit -m "Initial commit"
-git remote add origin https://github.com/your-username/pbl-learning.git
+git remote add origin git@github.com:gongyixuan200009-spec/project-based-learning.git
 git push -u origin main
 ```
 
