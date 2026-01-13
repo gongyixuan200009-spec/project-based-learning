@@ -37,10 +37,12 @@ export default function DashboardPage() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch('/api/projects')
+      const res = await fetch('/api/projects', {
+        credentials: 'include',
+      })
       if (res.ok) {
         const data = await res.json()
-        setProjects(data)
+        setProjects(data.projects || data)
       }
     } catch (error) {
       console.error('Failed to fetch projects:', error)
@@ -56,18 +58,24 @@ export default function DashboardPage() {
       const res = await fetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(newProject),
       })
 
       if (res.ok) {
-        const project = await res.json()
+        const data = await res.json()
+        const project = data.project || data
         setProjects([project, ...projects])
         setShowCreateModal(false)
         setNewProject({ title: '', description: '' })
         router.push(`/project/${project.id}`)
+      } else {
+        const error = await res.json()
+        alert(`创建失败: ${error.error || '未知错误'}`)
       }
     } catch (error) {
       console.error('Failed to create project:', error)
+      alert('创建失败，请重试')
     }
   }
 
