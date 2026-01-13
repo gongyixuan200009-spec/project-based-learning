@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
 
 interface Project {
   id: string
@@ -18,10 +19,21 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [newProject, setNewProject] = useState({ title: '', description: '' })
+  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
-    fetchProjects()
+    checkAuth()
   }, [])
+
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      router.push('/login')
+      return
+    }
+    setUser(user)
+    fetchProjects()
+  }
 
   const fetchProjects = async () => {
     try {
@@ -92,13 +104,27 @@ export default function DashboardPage() {
               <h1 className="text-2xl font-bold text-gray-900">项目看板</h1>
               <p className="text-sm text-gray-600 mt-1">基于问题的学习 (PBL) 平台</p>
             </div>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-            >
-              <span className="text-xl">+</span>
-              创建新项目
-            </button>
+            <div className="flex items-center gap-4">
+              {user && (
+                <span className="text-sm text-gray-600">{user.email}</span>
+              )}
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut()
+                  router.push('/login')
+                }}
+                className="text-sm text-gray-600 hover:text-gray-900"
+              >
+                退出登录
+              </button>
+              <button
+                onClick={() => setShowCreateModal(true)}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+              >
+                <span className="text-xl">+</span>
+                创建新项目
+              </button>
+            </div>
           </div>
         </div>
       </header>

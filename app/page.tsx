@@ -46,13 +46,13 @@ export default function Home() {
             href="/login"
             className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            开始使用
+            登录 / 注册
           </a>
           <a
             href="/dashboard"
             className="inline-block border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
-            查看示例
+            进入看板
           </a>
         </div>
       </div>
